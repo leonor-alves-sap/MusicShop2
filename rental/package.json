@@ -17,7 +17,7 @@
     "prettier": "prettier --ignore-path .gitignore \"**/*.{css,html,js,jsx,json,ts,tsx,md,mdx,yml,yaml}\"",
     "start": "node dist/index.js",
     "dev": "npm-run-all build --parallel tsc:watch nodemon",
-    "test": "npm-run-all lint test:format",
+    "test": "jest",
     "test:format": "npm run -- prettier --check",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch"
@@ -54,9 +54,9 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "roots": [
-      "./src"
+      "."
     ],
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.tsx?$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
