@@ -16,7 +16,6 @@ app.use("/api/clients", clientController); // Mount clientController at /api/cli
 app.use("/api/vinyls", vinylController); // Mount vinylController at /api/vinyls
 
 app.listen(PORT, async () => {
-  console.log(process.env.PORT);
   console.log(`app listening on port ${PORT}`);
   migrateTables();
 });

@@ -10,6 +10,5 @@ app.use(express.json()); // Add this middleware to parse JSON requests
 app.use("/api/rentals", rentalController); // Mount clientController at /api/rentals
 
 app.listen(PORT, async () => {
-  console.log(process.env.PORT);
   console.log(`app listening on port ${PORT}`);
 });
