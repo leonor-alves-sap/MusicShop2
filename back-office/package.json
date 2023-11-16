@@ -1,0 +1,58 @@
+{
+  "name": "back-office",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^18.18.2"
+  },
+  "scripts": {
+    "build": "npm-run-all clean tsc && cp -R ./src/db/migrations ./dist/db",
+    "clean": "rimraf dist",
+    "format": "npm run -- prettier --write",
+    "lint": "eslint --ext js,jsx,ts,tsx .",
+    "nodemon": "nodemon --watch dist",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.{css,html,js,jsx,json,ts,tsx,md,mdx,yml,yaml}\"",
+    "start": "node dist/index.js",
+    "dev": "npm-run-all build --parallel tsc:watch nodemon",
+    "test": "npm-run-all lint test:format",
+    "test:format": "npm run -- prettier --check",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@types/sequelize": "^4.28.18",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-postgres": "^0.6.2",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "postgres-migrations": "^5.3.0",
+    "sequelize": "^6.34.0",
+    "sequelize-cli": "^6.6.2",
+    "source-map-support": "^0.5.16"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "@types/node": "^13.13.52",
+    "@types/pg": "^8.10.9",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "nodemon": "^2.0.22",
+    "npm-run-all": "^4.1.5",
+    "prettier": "1.19.1",
+    "rimraf": "^3.0.2",
+    "typescript": "~4.2.3"
+  },
+  "prettier": {
+    "trailingComma": "all"
+  }
+}
