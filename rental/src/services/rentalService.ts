@@ -19,7 +19,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching client data: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error fetching client data: ${error.message}`);
+      }
     }
   }
 
@@ -31,7 +33,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching client data: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error fetching client data: ${error.message}`);
+      }
     }
   }
 
@@ -43,7 +47,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching all vinyl data: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error fetching all vinyl data: ${error.message}`);
+      }
     }
   }
 
@@ -55,7 +61,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching vinyl data: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error fetching vinyl data: ${error.message}`);
+      }
     }
   }
 
@@ -67,7 +75,11 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching vinyl data by artist: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(
+          `Error fetching vinyl data by artist: ${error.message}`,
+        );
+      }
     }
   }
 
@@ -79,7 +91,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error fetching vinyl data by genre: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error fetching vinyl data by genre: ${error.message}`);
+      }
     }
   }
 
@@ -91,7 +105,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error updating vinyl price: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error updating vinyl price: ${error.message}`);
+      }
     }
   }
 
@@ -103,7 +119,9 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Error updating vinyl stock: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error updating vinyl stock: ${error.message}`);
+      }
     }
   }
 
@@ -139,7 +157,9 @@ class RentalService {
       rentalRepository.createRental(rental);
       return updatedClient;
     } catch (error) {
-      throw new Error(`Error renting vinyl: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error renting vinyl: ${error.message}`);
+      }
     }
   }
 
@@ -163,7 +183,9 @@ class RentalService {
         rentalRepository.updateRentalByClient(email, rental);
       }
     } catch (error) {
-      throw new Error(`Error renting vinyl: ${error}`);
+      if (error instanceof Error) {
+        throw new Error(`Error renting vinyl: ${error.message}`);
+      }
     }
   }
 }

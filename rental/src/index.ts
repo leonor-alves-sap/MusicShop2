@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { rentalController } from "./controllers/rentalController";
+import { rentalService } from "./services/rentalService";
 const PORT = process.env.PORT || 3000;
 
 //App

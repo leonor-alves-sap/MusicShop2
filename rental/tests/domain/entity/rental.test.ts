@@ -35,6 +35,4 @@ describe("Rental Class Tests", () => {
     expect(rental.getRentalDate()).toBe(newDate);
     expect(rental.getReturnDate()).toBe(newDate);
   });
-
-  // Additional tests as needed...
 });

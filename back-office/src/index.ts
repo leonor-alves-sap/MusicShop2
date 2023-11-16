@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { migrateTables } from "./repository/connection";
-
+import { clientService } from "./services/clientService";
 import { vinylController } from "./controllers/vinylController";
 import { clientController } from "./controllers/clientController"; // Adjust the import based on your project structure
 
