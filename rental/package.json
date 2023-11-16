@@ -18,6 +18,7 @@
     "start": "node dist/index.js",
     "dev": "npm-run-all build --parallel tsc:watch nodemon",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:format": "npm run -- prettier --check",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch"
@@ -64,6 +65,13 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "coverageDirectory": "coverage"
   }
 }
