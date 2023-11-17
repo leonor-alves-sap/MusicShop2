@@ -227,7 +227,7 @@ describe("RentalRepository", () => {
       expect(mockRelease).toHaveBeenCalled();
     });
 
-    it("should handle errors when fetching rentals by client", async () => {
+    it("should handle errors when updating rental by client", async () => {
       // Arrange
       const mockConnect = jest.fn();
       (pool.connect as jest.Mock).mockRejectedValue(

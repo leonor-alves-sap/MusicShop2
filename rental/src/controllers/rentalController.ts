@@ -25,7 +25,6 @@ router.post("/rent", async (req: Request, res: Response) => {
     } else if (error instanceof NoStockError) {
       return res.status(400).json({ error: error.message });
     } else {
-      console.error("Error renting vinyl:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
@@ -44,7 +43,6 @@ router.patch("/return", async (req: Request, res: Response) => {
     // Respond with a success message
     res.json({ message: "Vinyl returned successfully" });
   } catch (error) {
-    console.error("Error returning vinyl:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -67,7 +65,6 @@ router.patch("/balance", async (req: Request, res: Response) => {
       message: `Balance updated successfully. Your balance is now ${updatedClient.balance}`,
     });
   } catch (error) {
-    console.error("Error updating balance:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -84,7 +81,6 @@ router.get("/all-vinyls", async (req: Request, res: Response) => {
     // Respond with the updated vinyl details
     return res.json(response);
   } catch (error) {
-    console.error("Error getting vinyls:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -113,7 +109,6 @@ router.get("/vinyl", async (req: Request, res: Response) => {
     // Respond with the updated vinyl details
     return res.json(updatedVinyl);
   } catch (error) {
-    console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -133,7 +128,7 @@ router.get("/by-artist", async (req: Request, res: Response) => {
     }
 
     // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByGenre(artist);
+    const updatedVinyl = await rentalService.fetchVinylsByArtist(artist);
 
     if (!updatedVinyl) {
       return res.status(404).json({ error: "Vinyl not found" });
@@ -142,7 +137,6 @@ router.get("/by-artist", async (req: Request, res: Response) => {
     // Respond with the updated vinyl details
     return res.json(updatedVinyl);
   } catch (error) {
-    console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -162,7 +156,7 @@ router.get("/by-genre", async (req: Request, res: Response) => {
     }
 
     // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByArtist(genre);
+    const updatedVinyl = await rentalService.fetchVinylsByGenre(genre);
 
     if (!updatedVinyl) {
       return res.status(404).json({ error: "Vinyl not found" });
@@ -171,7 +165,6 @@ router.get("/by-genre", async (req: Request, res: Response) => {
     // Respond with the updated vinyl details
     return res.json(updatedVinyl);
   } catch (error) {
-    console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });

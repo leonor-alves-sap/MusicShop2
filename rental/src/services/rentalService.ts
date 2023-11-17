@@ -164,8 +164,14 @@ class RentalService {
   }
 
   // Function to search for a specific vinyl_id
-  findRentalByVinylId(rentals: Rental[], vinylId: string): Rental | undefined {
-    return rentals.find(rental => rental.vinyl_id === vinylId);
+  findRentalByVinylId(rentals: Rental[], vinylId: string): Rental {
+    const foundRental = rentals.find(rental => rental.vinyl_id === vinylId);
+
+    if (!foundRental) {
+      throw new Error(`No rental found for vinylId: ${vinylId}`);
+    }
+
+    return foundRental;
   }
 
   async returnVinyl(email: string, title: string): Promise<void> {
@@ -178,13 +184,12 @@ class RentalService {
       // Update rental event
       const rentals = await rentalRepository.getRentalsByClient(email);
       var rental = this.findRentalByVinylId(rentals, vinyl_data.id);
-      if (rental !== undefined) {
-        rental.setReturnDate(new Date());
-        rentalRepository.updateRentalByClient(email, rental);
-      }
+
+      rental.setReturnDate(new Date());
+      rentalRepository.updateRentalByClient(email, rental);
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Error renting vinyl: ${error.message}`);
+        throw new Error(`Error returning vinyl: ${error.message}`);
       }
     }
   }
