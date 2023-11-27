@@ -7,11 +7,19 @@ import { clientController } from "./controllers/clientController"; // Adjust the
 const PORT = process.env.PORT || 3000;
 
 //App
-
+const cors = require("cors");
 const app = express();
 app.use(express.json()); // Add this middleware to parse JSON requests
 
 // Mounting controllers/routers
+app.use(
+  cors({
+    origin: "http://localhost:3002", // Update this to your frontend's URL
+    credentials: true,
+  }),
+);
+
+// Use CORS middleware
 app.use("/api/clients", clientController); // Mount clientController at /api/clients
 app.use("/api/vinyls", vinylController); // Mount vinylController at /api/vinyls
 
