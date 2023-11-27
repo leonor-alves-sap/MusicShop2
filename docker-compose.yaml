@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./build/docker/back-office/Dockerfile
     ports:
-      - 3000:3000
+      - 3002:3000
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/MusicShop
     depends_on:
@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: ./build/docker/rental-app/Dockerfile
     ports:
-      - 3002:3000
+      - 3000:3000
     depends_on:
       - rental
       - back-office

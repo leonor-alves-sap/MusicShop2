@@ -11,7 +11,7 @@ app.use(express.json()); // Add this middleware to parse JSON requests
 // Use CORS middleware
 app.use(
   cors({
-    origin: "http://localhost:3002", // Update this to your frontend's URL
+    origin: "http://rental-app:3000", // Update this to your frontend's URL
     credentials: true,
   }),
 );
