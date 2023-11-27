@@ -24,14 +24,15 @@ services:
       - db
       - back-office
   rental-frontend:
-    image: rental-frontend
+    image: rental-app
     build:
       context: .
-      dockerfile: ./build/docker/rental-frontend/Dockerfile
+      dockerfile: ./build/docker/rental-app/Dockerfile
     ports:
       - 3002:3000
     depends_on:
       - rental
+      - back-office
   db:
     image: postgres:latest
     environment:
