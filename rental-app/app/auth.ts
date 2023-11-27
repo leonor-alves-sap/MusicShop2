@@ -22,6 +22,7 @@ async function getUser(email: string): Promise<any> {
     const user = await axios.get(`${BACK_OFFICE_CLIENTS}/client`, {
       params: { email: email },
     });
+    console.log(user);
     return user.data;
   } catch (error) {
     console.error('Failed to fetch user:', error);
