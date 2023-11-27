@@ -24,16 +24,19 @@
     "tsc:watch": "tsc --watch"
   },
   "dependencies": {
+    "@types/superagent": "^4.1.24",
     "axios": "^1.6.1",
     "express": "^4.18.2",
+    "heroicons": "^2.0.18",
     "pg": "^8.11.3",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "superagent": "^8.1.2"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.20.4",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.8",
-    "@types/node": "^13.13.52",
+    "@types/node": "^14.18.2",
     "@types/pg": "^8.10.9",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
@@ -48,7 +51,7 @@
     "rimraf": "^3.0.2",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "prettier": {
     "trailingComma": "all"
