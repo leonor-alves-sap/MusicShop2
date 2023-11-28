@@ -52,7 +52,7 @@ export default function Form() {
     try {
       console.log('API Request:', {
         email: 'roy_kent@richmondfc.com', // Use the user's email from the session
-        balance: parseFloat(topupAmount) + parseFloat(currentAmount),
+        newBalance: parseFloat(topupAmount),
       });
       const response = await fetch(`${clientEndpoint}/update-balance`, {
         method: 'PATCH',
@@ -61,7 +61,7 @@ export default function Form() {
         },
         body: JSON.stringify({
           email: 'roy_kent@richmondfc.com', // Replace with the actual email
-          balance: parseFloat(topupAmount),
+          newBalance: parseFloat(topupAmount),
         }),
       });
       console.log('API response', response);
