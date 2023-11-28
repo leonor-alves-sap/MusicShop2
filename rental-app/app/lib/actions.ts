@@ -155,6 +155,33 @@ export const getUser = async (email: string): Promise<User | null> => {
   }
 };
 
+export const topUp = async (
+  email: string,
+  topupAmount: number,
+): Promise<any> => {
+  try {
+    const response = await fetch(`${rentalEndpoint}/balance`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: 'roy_kent@richmondfc.com', // Replace with the actual email
+        balance: topupAmount,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Error updating balance');
+    }
+
+    const message = await response.json();
+    return message;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,

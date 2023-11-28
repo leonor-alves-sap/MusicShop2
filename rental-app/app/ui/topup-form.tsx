@@ -4,7 +4,7 @@ import React, { ChangeEvent, useState, useEffect } from 'react';
 import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { getUser } from '../lib/actions';
+import { getUser, topUp } from '../lib/actions';
 import { useSession } from 'next-auth/react';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
@@ -47,35 +47,20 @@ export default function Form() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Form Submitted!');
-    console.log('Rental endpoint is:', rentalEndpoint);
     try {
-      console.log('API Request:', {
-        email: 'roy_kent@richmondfc.com', // Use the user's email from the session
-        newBalance: parseFloat(topupAmount),
-      });
-      const response = await fetch(`${clientEndpoint}/update-balance`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: 'roy_kent@richmondfc.com', // Replace with the actual email
-          newBalance: parseFloat(topupAmount),
-        }),
-      });
-      console.log('API response', response);
+      const userData = await getUser('roy_kent@richmondfc.com');
+      console.log('User Data:', userData);
+      if (userData) {
+        console.log('User Data:', userData);
 
-      if (!response.ok) {
-        // Handle error responses
-        console.error('Error updating balance:', response.statusText);
-      } else {
-        // Handle successful response
-        const data = await response.json();
-        console.log(data.message);
+        // Call the topUp function with the email and topupAmount
+        const response = await topUp(userData.email, parseFloat(topupAmount));
+
+        // Handle the response as needed
+        console.log('Top Up Response:', response);
       }
     } catch (error: any) {
-      console.error('Error updating balance:', error.message);
+      console.error('Error:', error.message);
     }
   };
 
