@@ -31,7 +31,7 @@ router.post("/rent", async (req: Request, res: Response) => {
 });
 
 // Return a vinyl
-router.patch("/return", async (req: Request, res: Response) => {
+router.post("/return", async (req: Request, res: Response) => {
   try {
     const { email, title } = req.body;
     // Validate request parameters
@@ -48,7 +48,7 @@ router.patch("/return", async (req: Request, res: Response) => {
 });
 
 // Return a vinyl
-router.patch("/balance", async (req: Request, res: Response) => {
+router.post("/balance", async (req: Request, res: Response) => {
   try {
     const { email, balance } = req.body;
     // Validate request parameters

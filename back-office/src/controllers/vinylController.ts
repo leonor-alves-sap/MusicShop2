@@ -40,7 +40,7 @@ router.post("/vinyl", async (req: Request, res: Response) => {
 });
 
 // Update Vinyl
-router.patch("/update-vinyl", async (req, res) => {
+router.post("/update-vinyl", async (req, res) => {
   try {
     const { artist, genre, title, entranceDate, price, stock } = req.body;
 
@@ -83,7 +83,7 @@ router.patch("/update-vinyl", async (req, res) => {
   }
 });
 
-router.patch("/update-price", async (req: Request, res: Response) => {
+router.post("/update-price", async (req: Request, res: Response) => {
   try {
     const { title, newPrice } = req.body;
     // Assuming title and newPrice are provided in the request body
@@ -109,7 +109,7 @@ router.patch("/update-price", async (req: Request, res: Response) => {
   }
 });
 
-router.patch("/update-stock", async (req: Request, res: Response) => {
+router.post("/update-stock", async (req: Request, res: Response) => {
   try {
     const { title, newStock } = req.body;
     // Assuming title and newStock are provided in the request body

@@ -29,7 +29,7 @@ router.post("/client", async (req: Request, res: Response) => {
   }
 });
 
-router.patch("/update-balance", async (req: Request, res: Response) => {
+router.post("/update-balance", async (req: Request, res: Response) => {
   try {
     const { email, newBalance } = req.body;
     console.log(req.body);
@@ -56,7 +56,7 @@ router.patch("/update-balance", async (req: Request, res: Response) => {
   }
 });
 
-router.patch("/update-client", async (req, res) => {
+router.post("/update-client", async (req, res) => {
   try {
     const { email, name, age, gender, balance } = req.body;
 
