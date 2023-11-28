@@ -8,13 +8,14 @@ const cors = require("cors");
 const app = express();
 app.use(express.json()); // Add this middleware to parse JSON requests
 // Use CORS middleware
-app.use(
-  cors({
-    origin: "http://rental-frontend:3000", // Update this to your frontend's URL
-    credentials: true,
-  }),
-);
+const corsOptions = {
+  origin: "http://rental-frontend:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // enable set cookie
+  optionsSuccessStatus: 204,
+};
 
+app.use(cors(corsOptions));
 // Mounting controllers/routers
 app.use("/api/rentals", rentalController); // Mount clientController at /api/rentals
 
