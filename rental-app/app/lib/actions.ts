@@ -8,8 +8,8 @@ import { signIn } from '@/app/auth';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
 
-const rentalEndpoint = process.env.REACT_APP_RENTAL_API_URL;
-const clientEndpoint = process.env.REACT_APP_CLIENTS_API_URL;
+const rentalEndpoint = 'http://rental:3000/api/rentals';
+const clientEndpoint = 'http://back-office:3000/api/clients';
 
 const FormSchema = z.object({
   id: z.string(),

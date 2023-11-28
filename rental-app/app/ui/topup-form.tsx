@@ -8,6 +8,7 @@ import { getUser } from '../lib/actions';
 import { useSession } from 'next-auth/react';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
+const clientEndpoint = 'http://back-office:3000/api/clients';
 
 export default function Form() {
   const [topupAmount, setTopupAmount] = useState('');
@@ -47,19 +48,20 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('Form Submitted!');
+    console.log('Rental endpoint is:', rentalEndpoint);
     try {
       console.log('API Request:', {
         email: 'roy_kent@richmondfc.com', // Use the user's email from the session
         balance: parseFloat(topupAmount) + parseFloat(currentAmount),
       });
-      const response = await fetch(`${rentalEndpoint}/balance`, {
+      const response = await fetch(`${clientEndpoint}/update-balance`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: 'roy_kent@richmondfc.com', // Replace with the actual email
-          balance: parseFloat(topupAmount) + parseFloat(currentAmount),
+          balance: parseFloat(topupAmount),
         }),
       });
       console.log('API response', response);
