@@ -1,17 +1,17 @@
 import {
+  CreditCardIcon,
   MagnifyingGlassIcon,
   RectangleStackIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  {
-    name: 'Search',
-    href: '/dashboard/search',
-    icon: MagnifyingGlassIcon,
-  },
+  { name: 'Search', href: '/dashboard/search', icon: MagnifyingGlassIcon },
   { name: 'Rent', href: '/dashboard/rent', icon: RectangleStackIcon },
+  { name: 'Profile', href: '/dashboard/profile', icon: UserCircleIcon },
+  { name: 'Top Up', href: '/dashboard/topup', icon: CreditCardIcon },
 ];
 
 export default function NavLinks() {

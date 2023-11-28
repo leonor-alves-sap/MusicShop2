@@ -6,27 +6,12 @@ import { sql } from '@vercel/postgres';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
 import axios, { AxiosResponse, AxiosError } from 'axios';
-
-const RENTAL_API = 'http://rental:3000/api/rentals';
-const BACK_OFFICE_CLIENTS = 'http://back-office:3000/api/clients';
+import { getUser, createUser } from './lib/actions';
 
 class PasswordMismatchError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'PasswordMismatchError';
-  }
-}
-
-async function getUser(email: string): Promise<any> {
-  try {
-    const user = await axios.get(`${BACK_OFFICE_CLIENTS}/client`, {
-      params: { email: email },
-    });
-    console.log(user);
-    return user.data;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
   }
 }
 
@@ -79,26 +64,3 @@ export const { auth, signIn, signOut } = NextAuth({
     }),
   ],
 });
-
-export async function createUser(
-  email: string,
-  password: string,
-  name: string,
-): Promise<User | null> {
-  try {
-    // Hash the password before storing it
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert the new user into the database
-    const newUser = await sql<User>`
-        INSERT INTO users (email, password, name)
-        VALUES (${email}, ${hashedPassword}, ${name})
-        RETURNING *
-      `;
-
-    return newUser.rows[0];
-  } catch (error) {
-    console.error('Failed to create user:', error);
-    return null;
-  }
-}

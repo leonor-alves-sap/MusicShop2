@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import { rentalController } from "./controllers/rentalController";
-import { rentalService } from "./services/rentalService";
 const PORT = process.env.PORT || 3000;
 
 //App
@@ -11,7 +10,7 @@ app.use(express.json()); // Add this middleware to parse JSON requests
 // Use CORS middleware
 app.use(
   cors({
-    origin: "http://rental-app:3000", // Update this to your frontend's URL
+    origin: "http://rental-frontend:3000", // Update this to your frontend's URL
     credentials: true,
   }),
 );

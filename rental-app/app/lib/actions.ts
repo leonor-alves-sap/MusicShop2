@@ -4,7 +4,12 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { signIn, createUser } from '@/app/auth';
+import { signIn } from '@/app/auth';
+import type { User } from '@/app/lib/definitions';
+import bcrypt from 'bcrypt';
+
+const rentalEndpoint = process.env.REACT_APP_RENTAL_API_URL;
+const clientEndpoint = process.env.REACT_APP_CLIENTS_API_URL;
 
 const FormSchema = z.object({
   id: z.string(),
@@ -111,6 +116,44 @@ export async function deleteInvoice(id: string) {
   }
   revalidatePath('/dashboard/invoices');
 }
+
+export async function createUser(
+  email: string,
+  password: string,
+  name: string,
+): Promise<User | null> {
+  try {
+    // Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the new user into the database
+    const newUser = await sql<User>`
+        INSERT INTO users (email, password, name)
+        VALUES (${email}, ${hashedPassword}, ${name})
+        RETURNING *
+      `;
+
+    return newUser.rows[0];
+  } catch (error) {
+    console.error('Failed to create user:', error);
+    return null;
+  }
+}
+
+export const getUser = async (email: string): Promise<User | null> => {
+  try {
+    const response = await fetch(`${clientEndpoint}/client/?email=${email}`);
+    if (!response.ok) {
+      throw new Error('Error fetching user data');
+    }
+
+    const userData: User = await response.json();
+    return userData;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
 
 export async function authenticate(
   prevState: string | undefined,

@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
-import Form from '@/app/ui/rent/rent-form';
+import Form from '@/app/ui/topup-form';
 import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Rent a Vinyl',
+  title: 'Top Up',
 };
 
 export default async function Page() {
@@ -13,8 +13,8 @@ export default async function Page() {
         breadcrumbs={[
           { label: 'Dashboard', href: '/dashboard' },
           {
-            label: 'Rent a Vinyl',
-            href: '/dashboard/rent',
+            label: 'Top Up',
+            href: '/dashboard/topup',
             active: true,
           },
         ]}

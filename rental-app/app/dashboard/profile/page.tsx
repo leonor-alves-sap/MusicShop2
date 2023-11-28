@@ -1,25 +1,25 @@
+import ProfileForm from '@/app/ui/profile-form';
 import { Metadata } from 'next';
-import Form from '@/app/ui/rent/rent-form';
 import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Rent a Vinyl',
+  title: 'Profile',
 };
 
-export default async function Page() {
+export default function ProfilePage() {
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Dashboard', href: '/dashboard' },
           {
-            label: 'Rent a Vinyl',
-            href: '/dashboard/rent',
+            label: 'Profile',
+            href: '/dashboard/profile',
             active: true,
           },
         ]}
       />
-      <Form />
+      <ProfileForm />
     </main>
   );
 }

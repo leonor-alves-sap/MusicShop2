@@ -7,6 +7,9 @@ export type User = {
   name: string;
   email: string;
   password: string;
+  age: number;
+  balance: number;
+  gender: string;
 };
 
 export type Customer = {
