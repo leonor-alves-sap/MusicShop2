@@ -48,11 +48,11 @@ router.patch("/return", async (req: Request, res: Response) => {
 });
 
 // Return a vinyl
-router.patch("/balance", async (req: Request, res: Response) => {
+router.post("/balance", async (req: Request, res: Response) => {
   try {
     const { email, balance } = req.body;
     // Validate request parameters
-    if (!email && !balance) {
+    if (!email || !balance) {
       return res.status(400).json({ error: "Invalid request parameters" });
     }
     const updatedClient = await rentalService.updateClientBalance(

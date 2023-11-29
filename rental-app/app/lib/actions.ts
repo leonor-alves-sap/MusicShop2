@@ -160,16 +160,24 @@ export const topUp = async (
   topupAmount: number,
 ): Promise<any> => {
   try {
+    console.log(`${rentalEndpoint}/balance`);
+    console.log(email, typeof email);
+    console.log(topupAmount, typeof topupAmount);
+    if (!email || !topupAmount) {
+      throw new Error('Invalid request parameters');
+    }
+
     const response = await fetch(`${rentalEndpoint}/balance`, {
-      method: 'patch',
+      method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: 'roy_kent@richmondfc.com', // Replace with the actual email
+        email: email,
         balance: topupAmount,
       }),
     });
+    console.log(response);
     if (!response.ok) {
       throw new Error('Error updating balance');
     }
