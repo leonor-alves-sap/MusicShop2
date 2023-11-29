@@ -27,7 +27,7 @@ class RentalService {
 
   async updateClientBalance(clientEmail: string, clientNewBalance: number) {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         `${this.BACK_OFFICE_API_CLIENTS_URL}/update-balance`,
         { email: clientEmail, newBalance: clientNewBalance },
       );
@@ -99,7 +99,7 @@ class RentalService {
 
   async updateVinylPrice(vinylTitle: string, vinylPrice: number) {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-price`,
         { title: vinylTitle, newPrice: vinylPrice },
       );
@@ -113,7 +113,7 @@ class RentalService {
 
   async updateVinylStock(vinylTitle: string, vinylStock: number) {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-stock`,
         { title: vinylTitle, newStock: vinylStock },
       );

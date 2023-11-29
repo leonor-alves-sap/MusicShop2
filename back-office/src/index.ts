@@ -12,7 +12,14 @@ const app = express();
 app.use(express.json()); // Add this middleware to parse JSON requests
 
 // Mounting controllers/routers
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 // Use CORS middleware
 app.use("/api/clients", clientController); // Mount clientController at /api/clients
