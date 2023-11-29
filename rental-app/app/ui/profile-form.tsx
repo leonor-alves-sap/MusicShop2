@@ -11,10 +11,70 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { useState, useEffect } from 'react';
+import { getUser, updateUser } from '../lib/actions';
+import { redirect, useRouter } from 'next/navigation';
 
 export default function ProfileForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    age: '',
+    gender: '',
+  });
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const email = 'roy_kent@richmondfc.com'; // Replace with the actual email
+      const user = await getUser(email);
+
+      if (user) {
+        setFormData({
+          name: user.name || '',
+          email: user.email || '',
+          age: user.age?.toString() || '',
+          gender: user.gender || '',
+        });
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      // I have to get the info updated
+      if (formData) {
+        // Call the topUp function with the email and topupAmount
+        const response = await updateUser(formData);
+
+        // Handle the response as needed
+        console.log('Top Up Response:', response);
+        const confirmation = window.confirm(`Your info has been updated`);
+        // Redirect back to the dashboard if the user confirms
+        if (confirmation) {
+          router.push('/dashboard');
+        } else {
+          console.log('User canceled the update.');
+          const response = await updateUser(
+            await getUser('roy_kent@richmondfc.com'),
+          );
+        }
+      }
+    } catch (error: any) {
+      console.error('Error:', error.message);
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Client Name */}
         <div className="mb-4">
@@ -26,7 +86,8 @@ export default function ProfileForm() {
               id="user"
               name="user"
               type="string"
-              //defaultValue={invoice.amount}
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Enter your name"
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             />
@@ -45,7 +106,8 @@ export default function ProfileForm() {
                 id="email"
                 name="email"
                 type="string"
-                //defaultValue={invoice.amount}
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -65,7 +127,8 @@ export default function ProfileForm() {
                 id="age"
                 name="age"
                 type="number"
-                //defaultValue={invoice.amount}
+                value={formData.age}
+                onChange={handleChange}
                 placeholder="Enter your age"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -84,7 +147,8 @@ export default function ProfileForm() {
               id="gender"
               name="gender"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              //defaultValue={invoice.customer_id}
+              value={formData.gender}
+              onChange={handleChange}
             >
               <option value="" disabled>
                 Select a gender

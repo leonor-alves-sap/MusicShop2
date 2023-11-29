@@ -155,6 +155,37 @@ export const getUser = async (email: string): Promise<User | null> => {
   }
 };
 
+export const updateUser = async (userData: any): Promise<any> => {
+  try {
+    if (!userData) {
+      throw new Error('Invalid request parameters');
+    }
+
+    const response = await fetch(`${clientEndpoint}/update-client`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: userData.email,
+        name: userData.name,
+        age: userData.age,
+        gender: userData.gender,
+        balance: userData.balance,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Error updating user');
+    }
+
+    const message = await response.json();
+    return message;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
 export const topUp = async (
   email: string,
   topupAmount: number,

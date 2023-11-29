@@ -17,7 +17,7 @@ export default function Form() {
   const [totalAmount, setTotalAmount] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  const { data: session } = useSession() || {};
+  //const { data: session } = useSession() || {};
   const router = useRouter();
 
   const handleTopupChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -88,26 +88,26 @@ export default function Form() {
             Current Amount
           </label>
           <div className="relative">
-            {loading ? (
-              <p>Loading...</p>
-            ) : (
-              <div
-                id="total"
-                className="peer block w-full rounded-md border border-gray-200 py-4 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                style={{ userSelect: 'none', outline: 'none' }}
-              >
-                {currentAmount !== '' ? (
-                  <>
-                    {new Intl.NumberFormat('en-US', {
+            <div
+              id="total"
+              className="peer block h-[50px] w-full rounded-md border border-gray-200 py-4 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              style={{ userSelect: 'none', outline: 'none' }}
+            >
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <>
+                  {currentAmount !== '' ? (
+                    new Intl.NumberFormat('en-US', {
                       style: 'currency',
                       currency: 'USD',
-                    }).format(parseFloat(currentAmount))}
-                  </>
-                ) : (
-                  <p>Error loading current amount.</p>
-                )}
-              </div>
-            )}
+                    }).format(parseFloat(currentAmount))
+                  ) : (
+                    <p>Error loading current amount.</p>
+                  )}
+                </>
+              )}
+            </div>
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function Form() {
               placeholder="Enter USD amount"
               value={topupAmount}
               onChange={handleTopupChange}
-              className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className="peer block h-[50px] w-full rounded-md border border-gray-200 py-4 pl-10 text-sm outline-2 placeholder:text-gray-500"
             />
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
@@ -139,7 +139,7 @@ export default function Form() {
           <div className="relative">
             <div
               id="total"
-              className="peer block w-full rounded-md border border-gray-200 py-4 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className="peer block h-[50px] w-full rounded-md border border-gray-200 py-6 pl-10 text-sm outline-2 placeholder:text-gray-500"
               style={{ userSelect: 'none', outline: 'none' }}
             >
               {isNaN(parseFloat(totalAmount)) ? (
@@ -150,10 +150,10 @@ export default function Form() {
                     style: 'currency',
                     currency: 'USD',
                   }).format(parseFloat(totalAmount))}
-                  <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                 </>
               )}
             </div>
+            <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
         </div>
       </div>
