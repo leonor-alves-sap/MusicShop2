@@ -48,7 +48,7 @@ router.post("/return", async (req: Request, res: Response) => {
 });
 
 // Return a vinyl
-router.post("/balance", async (req: Request, res: Response) => {
+router.patch("/balance", async (req: Request, res: Response) => {
   try {
     const { email, balance } = req.body;
     // Validate request parameters
