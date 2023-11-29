@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { getUser, topUp } from '../lib/actions';
 import { useSession } from 'next-auth/react';
+import { redirect, useRouter } from 'next/navigation';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
 const clientEndpoint = 'http://back-office:3000/api/clients';
@@ -17,6 +18,7 @@ export default function Form() {
   const [loading, setLoading] = useState(true);
 
   const { data: session } = useSession() || {};
+  const router = useRouter();
 
   const handleTopupChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTopupAmount(event.target.value);
@@ -58,6 +60,16 @@ export default function Form() {
 
         // Handle the response as needed
         console.log('Top Up Response:', response);
+        const confirmation = window.confirm(
+          `Balance updated successfully. Your balance is now ${response?.balance}`,
+        );
+        // Redirect back to the dashboard if the user confirms
+        if (confirmation) {
+          router.push('/dashboard');
+        } else {
+          console.log('User canceled the update.');
+          await topUp(userData.email, -parseFloat(topupAmount));
+        }
       }
     } catch (error: any) {
       console.error('Error:', error.message);

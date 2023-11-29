@@ -29,19 +29,19 @@ router.post("/client", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/update-balance", async (req: Request, res: Response) => {
+router.post("/balance", async (req: Request, res: Response) => {
   try {
-    const { email, newBalance } = req.body;
+    const { email, balance } = req.body;
     console.log(req.body);
     // Assuming email and newBalance are provided in the request body
-    if (!email || typeof newBalance !== "number") {
+    if (!email || typeof balance !== "number") {
       return res.status(400).json({ error: "Invalid request parameters" });
     }
 
     // Call the service layer to update the client balance
     const updatedClient: Client | null = await clientService.updateClientBalance(
       email,
-      newBalance,
+      balance,
     );
     console.log(updatedClient);
     if (!updatedClient) {

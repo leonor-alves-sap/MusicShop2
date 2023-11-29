@@ -1,4 +1,5 @@
 import '@/app/ui/global.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RootLayout({
   children,
