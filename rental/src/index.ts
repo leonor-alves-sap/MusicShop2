@@ -17,7 +17,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // Mounting controllers/routers
-app.use("/api/rentals", rentalController); // Mount clientController at /api/rentals
+app.use("/api/rentals", rentalController);
 
 app.listen(PORT, async () => {
   console.log(`app listening on port ${PORT}`);

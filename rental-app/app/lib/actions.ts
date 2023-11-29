@@ -161,7 +161,7 @@ export const topUp = async (
 ): Promise<any> => {
   try {
     const response = await fetch(`${rentalEndpoint}/balance`, {
-      method: 'post',
+      method: 'patch',
       headers: {
         'Content-Type': 'application/json',
       },
