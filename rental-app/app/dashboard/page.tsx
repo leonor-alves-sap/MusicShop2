@@ -11,7 +11,7 @@ export default function Page() {
         {/* Your image component or content goes here */}
         <div style={{ width: `100%`, height: `90vh` }}>
           <Image
-            src="/dashboard-img.jpg"
+            src="/music_shop1.png"
             alt="Image Content"
             width={6720}
             height={4480}

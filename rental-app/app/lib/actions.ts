@@ -222,6 +222,7 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
+    console.log(formData);
     await signIn('credentials', Object.fromEntries(formData));
   } catch (error) {
     if ((error as Error).message.includes('CredentialsSignin')) {
