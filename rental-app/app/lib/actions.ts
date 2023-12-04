@@ -8,6 +8,7 @@ import { signIn } from '@/app/auth';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
 import { AuthError } from 'next-auth';
+import { hasExternalOtelApiPackage } from 'next/dist/build/webpack-config';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
 const clientEndpoint = 'http://back-office:3000/api/clients';
@@ -127,17 +128,27 @@ export async function createUser(
     // Hash the password before storing it
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insert the new user into the database
-    const newUser = await sql<User>`
-        INSERT INTO users (email, password, name)
-        VALUES (${email}, ${hashedPassword}, ${name})
-        RETURNING *
-      `;
+    const response = await fetch(`${clientEndpoint}/client`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        name: name,
+        password: hashedPassword,
+        balance: 0.0,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Error creating user');
+    }
 
-    return newUser.rows[0];
-  } catch (error) {
-    console.error('Failed to create user:', error);
-    return null;
+    const message = await response.json();
+    return message;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
   }
 }
 
