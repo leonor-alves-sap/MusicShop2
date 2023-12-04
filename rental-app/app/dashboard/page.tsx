@@ -1,7 +1,3 @@
-import Link from 'next/link';
-import NavLinks from '@/app/ui/dashboard/nav-links';
-import AcmeLogo from '@/app/ui/acme-logo';
-import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
 export default function Page() {

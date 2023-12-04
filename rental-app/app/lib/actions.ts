@@ -7,6 +7,7 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/app/auth';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
+import { AuthError } from 'next-auth';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
 const clientEndpoint = 'http://back-office:3000/api/clients';
@@ -222,11 +223,15 @@ export async function authenticate(
   formData: FormData,
 ) {
   try {
-    console.log(formData);
-    await signIn('credentials', Object.fromEntries(formData));
+    await signIn('credentials', formData);
   } catch (error) {
-    if ((error as Error).message.includes('CredentialsSignin')) {
-      return 'CredentialsSignin';
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
     }
     throw error;
   }

@@ -1,9 +1,6 @@
 'use client';
 
-import AcmeLogo from '@/app/ui/acme-logo';
 import SignupForm from '@/app/ui/signup-form';
-import { Metadata } from 'next';
-
 export default function SignupPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">

@@ -28,7 +28,7 @@ export default function Form() {
     const fetchUserData = async () => {
       try {
         // Replace the following line with your getUser function call
-        const userData = await getUser('roy_kent@richmondfc.com');
+        const userData = await getUser('roy_kent@afcrichmond.com');
         setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
         console.log(userData);
       } catch (error) {
@@ -50,7 +50,7 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData = await getUser('roy_kent@richmondfc.com');
+      const userData = await getUser('roy_kent@afcrichmond.com');
       console.log('User Data:', userData);
       if (userData) {
         console.log('User Data:', userData);

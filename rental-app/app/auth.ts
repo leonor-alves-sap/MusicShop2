@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
+import { authConfig } from './auth.config';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 import { getUser, createUser } from './lib/actions';
@@ -41,23 +41,24 @@ export const { auth, signIn, signOut } = NextAuth({
           return newUser;
         } else {
           const parsedCredentials = z
-            .object({
-              email: z.string().email(),
-              password: z.string().min(6),
-            })
-            .parse(credentials);
+            .object({ email: z.string().email(), password: z.string().min(6) })
+            .safeParse(credentials);
 
-          const { email, password } = parsedCredentials;
-          const user = await getUser(email);
+          if (parsedCredentials.success) {
+            const { email, password } = parsedCredentials.data;
+            const user = await getUser(email);
 
-          // if (user && (await bcrypt.compare(password, user.password))) {
-          //   return user;
-          // }
-          if (user && password == user.password) {
-            return user;
+            if (!user) return null;
+            const passwordsMatch = await bcrypt.compare(
+              password,
+              user.password,
+            );
+            if (passwordsMatch) {
+              return user;
+            }
           }
 
-          console.log('Invalid login credentials');
+          console.log('Invalid credentials');
           return null;
         }
       },

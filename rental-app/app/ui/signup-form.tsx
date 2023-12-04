@@ -13,7 +13,7 @@ import { authenticate } from '@/app/lib/actions';
 import { ChangeEvent, useState } from 'react';
 
 export default function SignupForm() {
-  const [state, dispatch] = useFormState(authenticate, undefined);
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -137,10 +137,10 @@ export default function SignupForm() {
           aria-live="polite"
           aria-atomic="true"
         >
-          {state === 'CredentialsSignin' && (
+          {errorMessage && (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">Invalid credentials</p>
+              <p className="text-sm text-red-500">{errorMessage}</p>
             </>
           )}
         </div>
