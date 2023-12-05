@@ -119,35 +119,6 @@ router.get("/vinyl", async (req: Request, res: Response) => {
 });
 
 // Vinyl by Artist
-router.get("/by-artist", async (req: Request, res: Response) => {
-  try {
-    const artist = req.query.artist;
-
-    // Validate request parameters
-    if (!artist) {
-      return res.status(400).json({ error: "Invalid request parameters" });
-    }
-
-    if (typeof artist !== "string") {
-      return res.status(400).json({ error: "Invalid parameter" });
-    }
-
-    // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByGenre(artist);
-
-    if (!updatedVinyl) {
-      return res.status(404).json({ error: "Vinyl not found" });
-    }
-
-    // Respond with the updated vinyl details
-    return res.json(updatedVinyl);
-  } catch (error) {
-    console.error("Error getting vinyl:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// Vinyl by Genre
 router.get("/by-genre", async (req: Request, res: Response) => {
   try {
     const genre = req.query.genre;
@@ -162,7 +133,7 @@ router.get("/by-genre", async (req: Request, res: Response) => {
     }
 
     // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByArtist(genre);
+    const updatedVinyl = await rentalService.fetchVinylsByGenre(genre);
 
     if (!updatedVinyl) {
       return res.status(404).json({ error: "Vinyl not found" });
@@ -175,5 +146,34 @@ router.get("/by-genre", async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Vinyl by Genre
+// router.get("/by-genre", async (req: Request, res: Response) => {
+//   try {
+//     const genre = req.query.genre;
+
+//     // Validate request parameters
+//     if (!genre) {
+//       return res.status(400).json({ error: "Invalid request parameters" });
+//     }
+
+//     if (typeof genre !== "string") {
+//       return res.status(400).json({ error: "Invalid parameter" });
+//     }
+
+//     // Call the service layer to update the vinyl balance
+//     const updatedVinyl = await rentalService.fetchVinylsByArtist(genre);
+
+//     if (!updatedVinyl) {
+//       return res.status(404).json({ error: "Vinyl not found" });
+//     }
+
+//     // Respond with the updated vinyl details
+//     return res.json(updatedVinyl);
+//   } catch (error) {
+//     console.error("Error getting vinyl:", error);
+//     return res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 export { router as rentalController };
