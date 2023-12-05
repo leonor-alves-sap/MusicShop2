@@ -19,23 +19,19 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error fetching client data: ${error.message}`);
-      }
+      throw new Error(`Error fetching client data: ${error}`);
     }
   }
 
   async updateClientBalance(clientEmail: string, clientNewBalance: number) {
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `${this.BACK_OFFICE_API_CLIENTS_URL}/update-balance`,
         { email: clientEmail, newBalance: clientNewBalance },
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error fetching client data: ${error.message}`);
-      }
+      throw new Error(`Error fetching client data: ${error}`);
     }
   }
 
@@ -47,9 +43,7 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error fetching all vinyl data: ${error.message}`);
-      }
+      throw new Error(`Error fetching all vinyl data: ${error}`);
     }
   }
 
@@ -61,9 +55,7 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error fetching vinyl data: ${error.message}`);
-      }
+      throw new Error(`Error fetching vinyl data: ${error}`);
     }
   }
 
@@ -75,11 +67,7 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(
-          `Error fetching vinyl data by artist: ${error.message}`,
-        );
-      }
+      throw new Error(`Error fetching vinyl data by artist: ${error}`);
     }
   }
 
@@ -91,37 +79,31 @@ class RentalService {
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error fetching vinyl data by genre: ${error.message}`);
-      }
+      throw new Error(`Error fetching vinyl data by genre: ${error}`);
     }
   }
 
   async updateVinylPrice(vinylTitle: string, vinylPrice: number) {
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-price`,
         { title: vinylTitle, newPrice: vinylPrice },
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error updating vinyl price: ${error.message}`);
-      }
+      throw new Error(`Error updating vinyl price: ${error}`);
     }
   }
 
   async updateVinylStock(vinylTitle: string, vinylStock: number) {
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-stock`,
         { title: vinylTitle, newStock: vinylStock },
       );
       return response.data;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error updating vinyl stock: ${error.message}`);
-      }
+      throw new Error(`Error updating vinyl stock: ${error}`);
     }
   }
 
@@ -157,21 +139,13 @@ class RentalService {
       rentalRepository.createRental(rental);
       return updatedClient;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error renting vinyl: ${error.message}`);
-      }
+      throw new Error(`Error renting vinyl: ${error}`);
     }
   }
 
   // Function to search for a specific vinyl_id
-  findRentalByVinylId(rentals: Rental[], vinylId: string): Rental {
-    const foundRental = rentals.find(rental => rental.vinyl_id === vinylId);
-
-    if (!foundRental) {
-      throw new Error(`No rental found for vinylId: ${vinylId}`);
-    }
-
-    return foundRental;
+  findRentalByVinylId(rentals: Rental[], vinylId: string): Rental | undefined {
+    return rentals.find(rental => rental.vinyl_id === vinylId);
   }
 
   async returnVinyl(email: string, title: string): Promise<void> {
@@ -184,13 +158,12 @@ class RentalService {
       // Update rental event
       const rentals = await rentalRepository.getRentalsByClient(email);
       var rental = this.findRentalByVinylId(rentals, vinyl_data.id);
-
-      rental.setReturnDate(new Date());
-      rentalRepository.updateRentalByClient(email, rental);
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error returning vinyl: ${error.message}`);
+      if (rental !== undefined) {
+        rental.setReturnDate(new Date());
+        rentalRepository.updateRentalByClient(email, rental);
       }
+    } catch (error) {
+      throw new Error(`Error renting vinyl: ${error}`);
     }
   }
 }
