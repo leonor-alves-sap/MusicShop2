@@ -15,6 +15,7 @@ class RentalRepository {
         "INSERT INTO rentals (client_id, vinyl_id, rental_date, return_date) VALUES ($1, $2, $3, $4)",
         [client_id, vinyl_id, rental_date, return_date],
       );
+      console.log("Rental entry successfully created.");
     } catch (error) {
       console.error("Error creating a new rental:", error);
       throw error;
@@ -73,7 +74,7 @@ class RentalRepository {
   }
 
   public async updateRentalByClient(
-    email: string,
+    user_id: string,
     rental: Rental,
   ): Promise<Rental | null> {
     const vinyl_id = rental.getVinylId();
@@ -84,7 +85,7 @@ class RentalRepository {
     try {
       await client.query(
         "UPDATE rentals SET rental_date=$1, return_date=$2 WHERE vinyl_id=$3 AND client_id=$4",
-        [rental_date, return_date, vinyl_id, email],
+        [rental_date, return_date, vinyl_id, user_id],
       );
       return rental;
     } catch (error) {

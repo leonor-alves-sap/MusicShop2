@@ -25,9 +25,9 @@ class RentalService {
 
   async updateClientBalance(clientEmail: string, clientNewBalance: number) {
     try {
-      const response = await axios.patch(
-        `${this.BACK_OFFICE_API_CLIENTS_URL}/update-balance`,
-        { email: clientEmail, newBalance: clientNewBalance },
+      const response = await axios.post(
+        `${this.BACK_OFFICE_API_CLIENTS_URL}/balance`,
+        { email: clientEmail, balance: clientNewBalance },
       );
       return response.data;
     } catch (error) {
@@ -85,7 +85,7 @@ class RentalService {
 
   async updateVinylPrice(vinylTitle: string, vinylPrice: number) {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-price`,
         { title: vinylTitle, newPrice: vinylPrice },
       );
@@ -97,7 +97,7 @@ class RentalService {
 
   async updateVinylStock(vinylTitle: string, vinylStock: number) {
     try {
-      const response = await axios.patch(
+      const response = await axios.post(
         `${this.BACK_OFFICE_API_VINYLS_URL}/update-stock`,
         { title: vinylTitle, newStock: vinylStock },
       );
@@ -135,7 +135,7 @@ class RentalService {
       await this.updateVinylStock(title, -1);
 
       // Create a rental event
-      const rental = new Rental(client_data.email, vinyl_data.id, new Date());
+      const rental = new Rental(client_data.id, vinyl_data.id, new Date());
       rentalRepository.createRental(rental);
       return updatedClient;
     } catch (error) {
@@ -150,17 +150,18 @@ class RentalService {
 
   async returnVinyl(email: string, title: string): Promise<void> {
     const vinyl_data = await this.fetchVinylData(title);
+    const user_data = await this.fetchClientData(email);
 
     try {
       // Update Stock
       await this.updateVinylStock(title, 1);
 
       // Update rental event
-      const rentals = await rentalRepository.getRentalsByClient(email);
+      const rentals = await rentalRepository.getRentalsByClient(user_data.id);
       var rental = this.findRentalByVinylId(rentals, vinyl_data.id);
       if (rental !== undefined) {
         rental.setReturnDate(new Date());
-        rentalRepository.updateRentalByClient(email, rental);
+        rentalRepository.updateRentalByClient(user_data.id, rental);
       }
     } catch (error) {
       throw new Error(`Error renting vinyl: ${error}`);
