@@ -112,6 +112,7 @@ class RentalService {
   }
 
   async rentVinyl(email: string, title: string): Promise<any> {
+    console.log(email);
     const client_data = await this.fetchClientData(email);
     const vinyl_data = await this.fetchVinylData(title);
 

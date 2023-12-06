@@ -152,6 +152,109 @@ export async function createUser(
   }
 }
 
+export const getVinylsByTitle = async (title: string): Promise<any | null> => {
+  try {
+    const response = await fetch(`${rentalEndpoint}/vinyl/?title=${title}`);
+    if (!response.ok) {
+      throw new Error('Error fetching vinyl data by title');
+    }
+
+    const vinylData = await response.json();
+    return vinylData;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
+export const getVinylsByArtist = async (
+  artist: string,
+): Promise<any | null> => {
+  try {
+    const response = await fetch(
+      `${rentalEndpoint}/by-artist/?artist=${artist}`,
+    );
+    if (!response.ok) {
+      throw new Error('Error fetching vinyl data by title');
+    }
+
+    const vinylData = await response.json();
+    return vinylData;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
+export const rentVinyl = async (
+  title: string,
+  email: string,
+): Promise<any | null> => {
+  try {
+    const response = await fetch(`${rentalEndpoint}/rent`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        title: title,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Error renting vinyl.');
+    }
+
+    const message = await response.json();
+    return message;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
+export const returnVinyl = async (
+  title: string,
+  email: string,
+): Promise<any | null> => {
+  try {
+    const response = await fetch(`${rentalEndpoint}/return`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        title: title,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Error returning vinyl');
+    }
+
+    const message = await response.json();
+    return message;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
+export const getVinylsByGenre = async (genre: string): Promise<any | null> => {
+  try {
+    const response = await fetch(`${rentalEndpoint}/by-genre/?genre=${genre}`);
+    if (!response.ok) {
+      throw new Error('Error fetching vinyl data by title');
+    }
+
+    const vinylData = await response.json();
+    return vinylData;
+  } catch (error: any) {
+    console.error('Error:', error.message);
+    return null; // Handle the error gracefully in your application
+  }
+};
+
 export const getUser = async (email: string): Promise<User | null> => {
   try {
     const response = await fetch(`${clientEndpoint}/client/?email=${email}`);

@@ -1,4 +1,6 @@
 'use client';
+
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import {
   AtSymbolIcon,
   CakeIcon,
@@ -10,10 +12,45 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import {
+  getVinylsByArtist,
+  getVinylsByGenre,
+  getVinylsByTitle,
+} from '../lib/actions';
 
 export default function SearchForm() {
+  const [searchType, setSearchType] = useState('');
+  const [query, setQuery] = useState('');
+
+  const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSearchType(event.target.value);
+  };
+
+  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      switch (searchType) {
+        case 'artist':
+          console.log(await getVinylsByArtist(query));
+          break;
+        case 'genre':
+          console.log(await getVinylsByGenre(query));
+          break;
+        case 'title':
+          console.log(await getVinylsByTitle(query));
+          break;
+      }
+    } catch (error: any) {
+      console.error('Error:', error.message);
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Search Type */}
         <div className="mb-4">
@@ -24,6 +61,8 @@ export default function SearchForm() {
             <select
               id="type"
               name="type"
+              value={searchType}
+              onChange={handleTypeChange}
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             >
               <option value="" disabled>
@@ -47,7 +86,8 @@ export default function SearchForm() {
               id="query"
               name="query"
               type="string"
-              //defaultValue={invoice.amount}
+              value={query}
+              onChange={handleQueryChange}
               placeholder=""
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             />

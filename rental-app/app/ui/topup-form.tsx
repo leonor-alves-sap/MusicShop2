@@ -17,8 +17,7 @@ export default function Form() {
   const [totalAmount, setTotalAmount] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  const { data: session } = useSession() || {};
-
+  //const { data: session } = useSession() || {};
   const router = useRouter();
 
   const handleTopupChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +28,9 @@ export default function Form() {
     const fetchUserData = async () => {
       try {
         // Replace the following line with your getUser function call
-        if (session && session.user && session.user.email) {
-          const userData = await getUser(session?.user?.email);
-          setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
-          console.log(userData);
-        }
+        const userData = await getUser('roy_kent@afcrichmond.com');
+        setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
+        console.log(userData);
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -42,7 +39,7 @@ export default function Form() {
     };
 
     fetchUserData();
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     // Update total amount whenever topupAmount or currentAmount changes
@@ -53,27 +50,25 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (session && session.user && session.user.email) {
-        const userData = await getUser(session?.user?.email);
+      const userData = await getUser('roy_kent@afcrichmond.com');
+      console.log('User Data:', userData);
+      if (userData) {
         console.log('User Data:', userData);
-        if (userData) {
-          console.log('User Data:', userData);
 
-          // Call the topUp function with the email and topupAmount
-          const response = await topUp(userData.email, parseFloat(topupAmount));
+        // Call the topUp function with the email and topupAmount
+        const response = await topUp(userData.email, parseFloat(topupAmount));
 
-          // Handle the response as needed
-          console.log('Top Up Response:', response);
-          const confirmation = window.confirm(
-            `Balance updated successfully. Your balance is now ${response?.balance}`,
-          );
-          // Redirect back to the dashboard if the user confirms
-          if (confirmation) {
-            router.push('/dashboard');
-          } else {
-            console.log('User canceled the update.');
-            await topUp(userData.email, -parseFloat(topupAmount));
-          }
+        // Handle the response as needed
+        console.log('Top Up Response:', response);
+        const confirmation = window.confirm(
+          `Balance updated successfully. Your balance is now ${response?.balance}`,
+        );
+        // Redirect back to the dashboard if the user confirms
+        if (confirmation) {
+          router.push('/dashboard');
+        } else {
+          console.log('User canceled the update.');
+          await topUp(userData.email, -parseFloat(topupAmount));
         }
       }
     } catch (error: any) {
