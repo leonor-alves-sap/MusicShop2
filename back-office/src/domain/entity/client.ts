@@ -1,4 +1,5 @@
 class Client {
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -7,6 +8,7 @@ class Client {
   balance: number;
 
   constructor(
+    id: string,
     name: string,
     email: string,
     password: string,
@@ -14,6 +16,7 @@ class Client {
     gender: string,
     balance: number,
   ) {
+    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
@@ -21,7 +24,9 @@ class Client {
     this.gender = gender;
     this.balance = balance;
   }
-
+  getId(): string {
+    return this.id;
+  }
   getName(): string {
     return this.name;
   }
@@ -42,6 +47,9 @@ class Client {
   }
 
   // Setter methods
+  setId(id: string): void {
+    this.id = id;
+  }
   setName(name: string): void {
     this.name = name;
   }

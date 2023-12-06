@@ -10,8 +10,8 @@ const router = express.Router();
 // Create a client
 router.post("/client", async (req: Request, res: Response) => {
   try {
-    const { email, name, password, age, gender, balance } = req.body;
-    const client = new Client(name, email, password, age, gender, balance);
+    const { id, email, name, password, age, gender, balance } = req.body;
+    const client = new Client(id, name, email, password, age, gender, balance);
 
     // Validate request parameters
     if (!client) {
@@ -78,6 +78,7 @@ router.post("/update-client", async (req, res) => {
     }
 
     const client = new Client(
+      existingClient.id,
       name || existingClient.name,
       email,
       existingClient.password,

@@ -18,6 +18,7 @@ class ClientService {
     }
 
     const updatedClient = new Client(
+      existingClient.id,
       existingClient.name,
       email,
       existingClient.password,

@@ -135,6 +135,7 @@ class RentalService {
       await this.updateVinylStock(title, -1);
 
       // Create a rental event
+      console.log(client_data.id);
       const rental = new Rental(client_data.id, vinyl_data.id, new Date());
       rentalRepository.createRental(rental);
       return updatedClient;

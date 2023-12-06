@@ -33,6 +33,7 @@ class ClientRepository {
       return result.rows.map(
         clientData =>
           new Client(
+            clientData.id,
             clientData.name,
             clientData.email,
             clientData.password,
@@ -65,6 +66,7 @@ class ClientRepository {
       const clientData = result.rows[0];
 
       return new Client(
+        clientData.id,
         clientData.name,
         email,
         clientData.password,
