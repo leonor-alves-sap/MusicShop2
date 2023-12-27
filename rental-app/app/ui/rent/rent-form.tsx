@@ -38,7 +38,9 @@ export default function Form() {
         case 'rent':
           var response = await rentVinyl(query, email);
           confirmation = window.confirm(
-            `${response?.message}. Your balance is now ${response?.userBalance}`,
+            `${response?.message}. Your balance is now ${response?.userBalance.toFixed(
+              2,
+            )}`,
           );
           break;
         case 'return':

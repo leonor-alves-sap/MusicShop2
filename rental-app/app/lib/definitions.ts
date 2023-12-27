@@ -12,6 +12,16 @@ export type User = {
   gender: string;
 };
 
+export type Vinyl = {
+  id: string;
+  artist: string;
+  genre: string;
+  title: string;
+  entranceDate: Date;
+  price: number;
+  stock: number;
+};
+
 export type Customer = {
   id: string;
   name: string;
