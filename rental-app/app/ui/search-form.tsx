@@ -12,11 +12,14 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import Search from './search';
 import {
   getVinylsByArtist,
   getVinylsByGenre,
   getVinylsByTitle,
+  getVinyls,
 } from '../lib/actions';
+import { Vinyl } from '../lib/definitions';
 
 // Results are passed onto the table component
 interface SearchFormProps {
@@ -35,16 +38,17 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    let searchResults: any;
     try {
       switch (searchType) {
         case 'artist':
-          var searchResults = await getVinylsByArtist(query);
+          searchResults = await getVinylsByArtist(query);
           break;
         case 'genre':
-          var searchResults = await getVinylsByGenre(query);
+          searchResults = await getVinylsByGenre(query);
           break;
         case 'title':
-          var searchResults = await getVinylsByTitle(query);
+          searchResults = await getVinylsByTitle(query);
           break;
       }
       onSearch(searchResults); // Set the search results in the state

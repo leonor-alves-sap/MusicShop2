@@ -1,9 +1,15 @@
-import React from 'react';
+'use client';
+
 import { formatCurrency } from '@/app/lib/utils';
 import { getVinyls } from '../../lib/actions';
+import { Vinyl } from '../../lib/definitions';
+import React, { useState, useEffect } from 'react';
 
-export default async function VinylTable({ vinyls }: { vinyls: any }) {
-  // results from search are passed to this component
+interface VinylTableProps {
+  vinyls: Vinyl[];
+}
+
+const VinylTable: React.FC<VinylTableProps> = ({ vinyls }) => {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -86,4 +92,5 @@ export default async function VinylTable({ vinyls }: { vinyls: any }) {
       </div>
     </div>
   );
-}
+};
+export default VinylTable;

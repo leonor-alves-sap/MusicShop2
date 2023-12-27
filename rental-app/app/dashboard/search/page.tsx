@@ -4,37 +4,31 @@ import { Metadata } from 'next';
 import SearchForm from '@/app/ui/search-form';
 import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
 import VinylTable from '@/app/ui/search/table';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Vinyl } from '@/app/lib/definitions';
-import { useEffect } from 'react';
 import { getVinyls } from '@/app/lib/actions'; // Replace with your actual API function
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-  };
-}) {
-  const [searchResults, setSearchResults] = useState<Vinyl[]>([]);
-
-  const handleSearch = (results: Vinyl[]) => {
-    setSearchResults(results);
-  };
+const Page: React.FC = () => {
+  const [vinyls, setVinyls] = useState<Vinyl[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchInitialData = async () => {
+    const fetchVinyls = async () => {
       try {
-        // Fetch initial data when the component mounts
-        const initialData = await getVinyls();
-        setSearchResults(initialData);
-      } catch (error) {
-        console.error('Error fetching initial data:', error);
+        const fetchedVinyls = await getVinyls();
+        console.log(fetchedVinyls);
+        if (fetchedVinyls != null) {
+          setVinyls(fetchedVinyls);
+          setLoading(false);
+        }
+      } catch (error: any) {
+        console.error('Error fetching vinyls:', error.message);
+        setLoading(false);
       }
     };
 
-    fetchInitialData();
-  }, []); // Empty dependency array ensures it runs only once when the component mounts
+    fetchVinyls();
+  }, []);
 
   return (
     <>
@@ -48,8 +42,9 @@ export default async function Page({
           },
         ]}
       />
-      <SearchForm onSearch={handleSearch} />
-      <VinylTable vinyls={searchResults} />
+      <VinylTable vinyls={vinyls} />;
     </>
   );
-}
+};
+
+export default Page;

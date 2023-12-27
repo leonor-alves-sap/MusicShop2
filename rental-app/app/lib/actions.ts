@@ -46,7 +46,9 @@ export async function createUser(
   }
 }
 
-export const getVinylsByTitle = async (title: string): Promise<any | null> => {
+export const getVinylsByTitle = async (
+  title: string,
+): Promise<Vinyl[] | null> => {
   try {
     const response = await fetch(`${rentalEndpoint}/vinyl/?title=${title}`);
     if (!response.ok) {
@@ -72,7 +74,7 @@ export const getVinylsByTitle = async (title: string): Promise<any | null> => {
 
 export const getVinylsByArtist = async (
   artist: string,
-): Promise<any | null> => {
+): Promise<Vinyl[] | null> => {
   try {
     const response = await fetch(
       `${rentalEndpoint}/by-artist/?artist=${artist}`,
@@ -125,7 +127,9 @@ export const rentVinyl = async (
   }
 };
 
-export const getVinylsByGenre = async (genre: string): Promise<any | null> => {
+export const getVinylsByGenre = async (
+  genre: string,
+): Promise<Vinyl[] | null> => {
   try {
     const response = await fetch(`${rentalEndpoint}/by-genre/?genre=${genre}`);
     if (!response.ok) {
@@ -149,7 +153,7 @@ export const getVinylsByGenre = async (genre: string): Promise<any | null> => {
   }
 };
 
-export const getVinyls = async (): Promise<any | null> => {
+export const getVinyls = async (): Promise<Vinyl[] | null> => {
   try {
     const response = await fetch(`${rentalEndpoint}/all-vinyls`);
     if (!response.ok) {
