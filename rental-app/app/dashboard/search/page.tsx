@@ -15,7 +15,6 @@ const Page: React.FC = () => {
     const fetchVinyls = async () => {
       try {
         const fetchedVinyls = await getVinyls();
-        console.log(fetchedVinyls);
         if (fetchedVinyls != null) {
           setVinyls(fetchedVinyls);
           setLoading(false);
