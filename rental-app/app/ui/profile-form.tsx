@@ -1,19 +1,15 @@
 'use client';
 
-import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 import {
   AtSymbolIcon,
   CakeIcon,
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useState, useEffect } from 'react';
 import { getUser, updateUser } from '../lib/actions';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileForm() {
   const [formData, setFormData] = useState({

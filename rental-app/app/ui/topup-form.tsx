@@ -5,8 +5,7 @@ import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { getUser, topUp } from '../lib/actions';
-import { useSession } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
 const clientEndpoint = 'http://back-office:3000/api/clients';

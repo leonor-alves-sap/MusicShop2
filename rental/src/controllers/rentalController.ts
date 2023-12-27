@@ -104,14 +104,13 @@ router.get("/vinyl", async (req: Request, res: Response) => {
     }
 
     // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylData(title);
+    const fetchedVinyls = await rentalService.fetchVinylData(title);
+    const vinylsArray = Array.isArray(fetchedVinyls)
+      ? fetchedVinyls
+      : [fetchedVinyls];
 
-    if (!updatedVinyl) {
-      return res.status(404).json({ error: "Vinyl not found" });
-    }
-
-    // Respond with the updated vinyl details
-    return res.json(updatedVinyl);
+    // Respond with the fetched vinyls details
+    return res.json(vinylsArray);
   } catch (error) {
     console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -132,15 +131,14 @@ router.get("/by-genre", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Invalid parameter" });
     }
 
-    // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByGenre(genre);
+    // Call the service layer to fetch the vinyls
+    const fetchedVinyls = await rentalService.fetchVinylsByGenre(genre);
+    const vinylsArray = Array.isArray(fetchedVinyls)
+      ? fetchedVinyls
+      : [fetchedVinyls];
 
-    if (!updatedVinyl) {
-      return res.status(404).json({ error: "Vinyl not found" });
-    }
-
-    // Respond with the updated vinyl details
-    return res.json(updatedVinyl);
+    // Respond with the fetched vinyls details
+    return res.json(vinylsArray);
   } catch (error) {
     console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -162,14 +160,13 @@ router.get("/by-artist", async (req: Request, res: Response) => {
     }
 
     // Call the service layer to update the vinyl balance
-    const updatedVinyl = await rentalService.fetchVinylsByArtist(artist);
+    const fetchedVinyls = await rentalService.fetchVinylsByArtist(artist);
+    const vinylsArray = Array.isArray(fetchedVinyls)
+      ? fetchedVinyls
+      : [fetchedVinyls];
 
-    if (!updatedVinyl) {
-      return res.status(404).json({ error: "Vinyl not found" });
-    }
-
-    // Respond with the updated vinyl details
-    return res.json(updatedVinyl);
+    // Respond with the fetched vinyls details
+    return res.json(vinylsArray);
   } catch (error) {
     console.error("Error getting vinyl:", error);
     return res.status(500).json({ error: "Internal Server Error" });

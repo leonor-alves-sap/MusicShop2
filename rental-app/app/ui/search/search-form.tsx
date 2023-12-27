@@ -12,19 +12,18 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import Search from './search';
 import {
   getVinylsByArtist,
   getVinylsByGenre,
   getVinylsByTitle,
   getVinyls,
-} from '../lib/actions';
-import { Vinyl } from '../lib/definitions';
+} from '../../lib/actions';
+import { Vinyl } from '../../lib/definitions';
 
-// Results are passed onto the table component
 interface SearchFormProps {
-  onSearch: (results: any) => void;
+  onSearch: (results: Vinyl[]) => void;
 }
+
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const [searchType, setSearchType] = useState('');
   const [query, setQuery] = useState('');
@@ -38,8 +37,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    let searchResults: any;
     try {
+      let searchResults: Vinyl[] | null = [];
       switch (searchType) {
         case 'artist':
           searchResults = await getVinylsByArtist(query);
@@ -51,8 +50,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
           searchResults = await getVinylsByTitle(query);
           break;
       }
-      onSearch(searchResults); // Set the search results in the state
-      console.log(searchResults);
+      if (searchResults != null) {
+        onSearch(searchResults);
+      }
     } catch (error: any) {
       console.error('Error:', error.message);
     }

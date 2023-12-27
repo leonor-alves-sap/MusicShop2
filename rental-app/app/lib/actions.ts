@@ -1,9 +1,5 @@
 'use server';
 
-import { z } from 'zod';
-import { sql } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { signIn } from '@/app/auth';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
@@ -80,7 +76,7 @@ export const getVinylsByArtist = async (
       `${rentalEndpoint}/by-artist/?artist=${artist}`,
     );
     if (!response.ok) {
-      throw new Error('Error fetching vinyl data by title');
+      throw new Error('Error fetching vinyl data by artist');
     }
 
     const vinylData: any[] = await response.json();
@@ -133,7 +129,7 @@ export const getVinylsByGenre = async (
   try {
     const response = await fetch(`${rentalEndpoint}/by-genre/?genre=${genre}`);
     if (!response.ok) {
-      throw new Error('Error fetching vinyl data by title');
+      throw new Error('Error fetching vinyl data by genre');
     }
 
     const vinylData: any[] = await response.json();

@@ -1,6 +1,6 @@
 import ProfileForm from '@/app/ui/profile-form';
 import { Metadata } from 'next';
-import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
+import Breadcrumbs from '@/app/lib/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Profile',

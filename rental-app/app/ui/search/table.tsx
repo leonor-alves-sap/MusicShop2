@@ -1,7 +1,6 @@
 'use client';
 
 import { formatCurrency } from '@/app/lib/utils';
-import { getVinyls } from '../../lib/actions';
 import { Vinyl } from '../../lib/definitions';
 import React, { useState, useEffect } from 'react';
 
@@ -32,7 +31,7 @@ const VinylTable: React.FC<VinylTableProps> = ({ vinyls }) => {
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
-                      {formatCurrency(vinyl.price)}
+                      {formatCurrency(parseFloat(vinyl.price))}
                     </p>
                     <p>{vinyl.stock}</p>
                   </div>
@@ -79,7 +78,7 @@ const VinylTable: React.FC<VinylTableProps> = ({ vinyls }) => {
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">{vinyl.genre}</td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(vinyl.price)}
+                    {formatCurrency(parseFloat(vinyl.price))}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">{vinyl.stock}</td>
 

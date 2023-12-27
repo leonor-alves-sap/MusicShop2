@@ -1,10 +1,9 @@
 'use client';
 
-import { Metadata } from 'next';
-import SearchForm from '@/app/ui/search-form';
-import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
-import VinylTable from '@/app/ui/search/table';
 import React, { useState, useEffect } from 'react';
+import Breadcrumbs from '@/app/lib/breadcrumbs';
+import VinylTable from '@/app/ui/search/table';
+import SearchForm from '@/app/ui/search/search-form';
 import { Vinyl } from '@/app/lib/definitions';
 import { getVinyls } from '@/app/lib/actions'; // Replace with your actual API function
 
@@ -30,6 +29,11 @@ const Page: React.FC = () => {
     fetchVinyls();
   }, []);
 
+  const handleSearch = async (searchResults: Vinyl[]) => {
+    // Handle search results here
+    setVinyls(searchResults);
+  };
+
   return (
     <>
       <Breadcrumbs
@@ -42,7 +46,8 @@ const Page: React.FC = () => {
           },
         ]}
       />
-      <VinylTable vinyls={vinyls} />;
+      <SearchForm onSearch={handleSearch} />
+      <VinylTable vinyls={vinyls} />
     </>
   );
 };

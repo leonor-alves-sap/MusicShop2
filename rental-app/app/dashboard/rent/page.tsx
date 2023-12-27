@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import Form from '@/app/ui/rent/rent-form';
-import Breadcrumbs from '@/app/ui/rent/breadcrumbs';
+import Form from '@/app/ui/rent-form';
+import Breadcrumbs from '@/app/lib/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Rent a Vinyl',

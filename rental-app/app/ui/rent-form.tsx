@@ -1,19 +1,15 @@
 'use client';
 
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
   PlayCircleIcon,
-  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { rentVinyl, returnVinyl } from '@/app/lib/actions';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Form() {
   const [rentOrReturn, setRentOrReturn] = useState('');
