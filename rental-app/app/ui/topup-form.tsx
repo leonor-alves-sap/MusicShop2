@@ -6,9 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { getUser, topUp } from '../lib/actions';
 import { useRouter } from 'next/navigation';
-
-const rentalEndpoint = 'http://rental:3000/api/rentals';
-const clientEndpoint = 'http://back-office:3000/api/clients';
+import { useSession } from 'next-auth/react';
 
 export default function Form() {
   const [topupAmount, setTopupAmount] = useState('');
@@ -16,8 +14,9 @@ export default function Form() {
   const [totalAmount, setTotalAmount] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  //const { data: session } = useSession() || {};
   const router = useRouter();
+  const { data: session, status } = useSession() || {};
+  const sessionUser = session?.user?.email;
 
   const handleTopupChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTopupAmount(event.target.value);
@@ -27,7 +26,10 @@ export default function Form() {
     const fetchUserData = async () => {
       try {
         // Replace the following line with your getUser function call
-        const userData = await getUser('roy_kent@afcrichmond.com');
+        if (!sessionUser) {
+          return;
+        }
+        const userData = await getUser(sessionUser);
         setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
         console.log(userData);
       } catch (error) {
@@ -49,7 +51,10 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData = await getUser('roy_kent@afcrichmond.com');
+      if (!sessionUser) {
+        return;
+      }
+      const userData = await getUser(sessionUser);
       console.log('User Data:', userData);
       if (userData) {
         console.log('User Data:', userData);
