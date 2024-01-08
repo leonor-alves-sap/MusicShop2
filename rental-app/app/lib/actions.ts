@@ -12,7 +12,6 @@ const clientEndpoint = 'http://back-office:3000/api/clients';
 export async function createUser(
   email: string,
   password: string,
-  name: string,
 ): Promise<User | null> {
   try {
     // Hash the password before storing it
@@ -25,7 +24,6 @@ export async function createUser(
       },
       body: JSON.stringify({
         email: email,
-        name: name,
         password: hashedPassword,
         balance: 0.0,
       }),
