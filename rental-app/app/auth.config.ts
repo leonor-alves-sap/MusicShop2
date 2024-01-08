@@ -1,3 +1,5 @@
+//
+
 import type { NextAuthConfig } from 'next-auth';
 
 export const authConfig = {
@@ -5,15 +7,9 @@ export const authConfig = {
     signIn: '/login',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
-      }
+    authorized({ request, auth }) {
+      const { pathname } = request.nextUrl;
+      if (pathname === '/middleware-example') return !!auth;
       return true;
     },
   },

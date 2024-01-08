@@ -1,4 +1,4 @@
-'use client';
+// page.tsx
 
 import LoginForm from '@/app/ui/login-form';
 
