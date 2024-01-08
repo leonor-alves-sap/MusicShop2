@@ -10,7 +10,6 @@ import { Button } from '@/app/ui/button';
 import { useState, useEffect } from 'react';
 import { getUser, updateUser } from '../lib/actions';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 export default function ProfileForm() {
   const [formData, setFormData] = useState({
@@ -19,18 +18,12 @@ export default function ProfileForm() {
     age: '',
     gender: '',
   });
-
   const router = useRouter();
-  const { data: session, status } = useSession();
-  const sessionUser = session?.user?.email;
 
   useEffect(() => {
     const fetchUserData = async () => {
-      if (!sessionUser) {
-        return;
-      }
-
-      const user = await getUser(sessionUser);
+      const email = 'roy_kent@richmondfc.com'; // Replace with the actual email
+      const user = await getUser(email);
 
       if (user) {
         setFormData({
@@ -66,10 +59,9 @@ export default function ProfileForm() {
           router.push('/dashboard');
         } else {
           console.log('User canceled the update.');
-          if (!sessionUser) {
-            return;
-          }
-          const response = await updateUser(await getUser(sessionUser));
+          const response = await updateUser(
+            await getUser('roy_kent@richmondfc.com'),
+          );
         }
       }
     } catch (error: any) {
