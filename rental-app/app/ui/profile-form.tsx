@@ -10,6 +10,7 @@ import { Button } from '@/app/ui/button';
 import { useState, useEffect } from 'react';
 import { getUser, updateUser } from '../lib/actions';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function ProfileForm() {
   const [formData, setFormData] = useState({
@@ -22,16 +23,26 @@ export default function ProfileForm() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const email = 'roy_kent@richmondfc.com'; // Replace with the actual email
-      const user = await getUser(email);
+      // Check if user is authenticated and get their email from the session
+      const { data: session, status } = useSession();
 
-      if (user) {
-        setFormData({
-          name: user.name || '',
-          email: user.email || '',
-          age: user.age?.toString() || '',
-          gender: user.gender || '',
-        });
+      if (status === 'authenticated' && session?.user) {
+        const email = session.user.email;
+        console.log('Email:', email);
+        if (!email) {
+          console.error('No email found in the session');
+          return;
+        }
+        const user = await getUser(email);
+
+        if (user) {
+          setFormData({
+            name: user.name || '',
+            email: user.email || '',
+            age: user.age?.toString() || '',
+            gender: user.gender || '',
+          });
+        }
       }
     };
 

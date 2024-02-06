@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { getUser, topUp } from '../lib/actions';
 import { useRouter } from 'next/navigation';
+import { getSession } from 'next-auth/react';
 
 const rentalEndpoint = 'http://rental:3000/api/rentals';
 const clientEndpoint = 'http://back-office:3000/api/clients';
@@ -16,20 +17,40 @@ export default function Form() {
   const [totalAmount, setTotalAmount] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  //const { data: session } = useSession() || {};
   const router = useRouter();
 
   const handleTopupChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTopupAmount(event.target.value);
   };
 
+  async function getUserEmail(): Promise<string | undefined> {
+    try {
+      const session = await getSession();
+      console.log('Session:', session);
+      if (session && session.user && session.user.email) {
+        return session.user.email;
+      } else {
+        console.error('Session or user data is missing.');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error fetching user email:', error);
+      return undefined;
+    }
+  }
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Replace the following line with your getUser function call
-        const userData = await getUser('roy_kent@afcrichmond.com');
-        setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
-        console.log(userData);
+        const userEmail = await getUserEmail();
+        console.log(userEmail);
+        if (userEmail) {
+          const userData = await getUser(userEmail);
+          setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
+          console.log('User Data:', userData);
+        } else {
+          console.error('User email is undefined.');
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -38,7 +59,7 @@ export default function Form() {
     };
 
     fetchUserData();
-  }, []);
+  }, []); // Empty dependency array to run only once when the component mounts
 
   useEffect(() => {
     // Update total amount whenever topupAmount or currentAmount changes
@@ -49,25 +70,18 @@ export default function Form() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const userData = await getUser('roy_kent@afcrichmond.com');
-      console.log('User Data:', userData);
-      if (userData) {
-        console.log('User Data:', userData);
-
-        // Call the topUp function with the email and topupAmount
-        const response = await topUp(userData.email, parseFloat(topupAmount));
-
-        // Handle the response as needed
+      const userEmail = await getUserEmail();
+      if (userEmail) {
+        const response = await topUp(userEmail, parseFloat(topupAmount));
         console.log('Top Up Response:', response);
         const confirmation = window.confirm(
           `Balance updated successfully. Your balance is now ${response?.balance}`,
         );
-        // Redirect back to the dashboard if the user confirms
         if (confirmation) {
           router.push('/dashboard');
         } else {
           console.log('User canceled the update.');
-          await topUp(userData.email, -parseFloat(topupAmount));
+          await topUp(userEmail, -parseFloat(topupAmount));
         }
       }
     } catch (error: any) {

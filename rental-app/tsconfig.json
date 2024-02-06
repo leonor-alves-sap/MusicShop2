@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "../back-office/src/db/placeholder-data.js",
-    "../back-office/src/db/seed.js"
+    "../back-office/src/db/seed.js",
+    "app/_app.js"
   ],
   "exclude": ["node_modules"]
 }
