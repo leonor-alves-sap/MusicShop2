@@ -40,11 +40,10 @@ export default function ProfileForm() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userEmail = await getUserEmail();
-        console.log(userEmail);
-        if (userEmail) {
+        const session = await getSession();
+        if (session && session.user && session.user.email) {
+          const userEmail = session.user.email;
           const userData = await getUser(userEmail);
-
           if (userData) {
             setFormData({
               name: userData.name || '',
@@ -53,13 +52,15 @@ export default function ProfileForm() {
               gender: userData.gender || '',
             });
           }
+        } else {
+          console.error('User session or email not found.');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
     fetchUserData();
-  }, []);
+  }, [router]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -118,22 +119,11 @@ export default function ProfileForm() {
         {/* Client Email */}
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Email{' '}
+            Email
           </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="email"
-                name="email"
-                type="string"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
+          <p className="rounded-md border border-gray-200 bg-gray-100 px-3 py-2 text-sm">
+            {formData.email}
+          </p>
         </div>
 
         {/* Client Age */}

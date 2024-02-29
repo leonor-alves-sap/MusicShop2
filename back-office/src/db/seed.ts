@@ -132,18 +132,21 @@ async function seedVinyls(client: any) {
   }
 }
 
-async function main() {
+async function seedDb() {
   const client = await pool.connect();
 
+  // Check if the "clients" table is empty
+  const clients = await client.query("SELECT * FROM clients");
+
+  if (clients.rows.length > 0) {
+    console.log("Database already seeded");
+    return;
+  }
   await seedUsers(client);
   await seedVinyls(client);
+  console.log("Database seeded successfully");
 
   await client.release();
 }
 
-main().catch(err => {
-  console.error(
-    "An error occurred while attempting to seed the database:",
-    err,
-  );
-});
+export { seedDb };

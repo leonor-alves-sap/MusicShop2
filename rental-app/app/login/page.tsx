@@ -1,8 +1,7 @@
 // page.tsx
 
-import { Form } from '@/app/ui/login-signup-form';
+import { Form } from '@/app/ui/login-form';
 import Link from 'next/link';
-import { getUser, createUser } from '@/app/lib/actions';
 import { SubmitButton } from '@/app/ui/submit-button';
 import { signIn } from '@/app/auth';
 
