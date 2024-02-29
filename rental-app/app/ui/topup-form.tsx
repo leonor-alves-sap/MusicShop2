@@ -46,7 +46,7 @@ export default function Form() {
         console.log(userEmail);
         if (userEmail) {
           const userData = await getUser(userEmail);
-          setCurrentAmount(userData?.balance?.toString() || ''); // Use optional chaining and provide a default value
+          setCurrentAmount(userData?.balance?.toString() || '');
           console.log('User Data:', userData);
         } else {
           console.error('User email is undefined.');

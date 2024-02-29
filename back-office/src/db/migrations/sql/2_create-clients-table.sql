@@ -6,6 +6,6 @@ CREATE TABLE clients(
   password VARCHAR(150) NOT NULL,
   name VARCHAR(250) NULL,
   age integer,
-  gender char(1),
+  gender VARCHAR(20),
   balance numeric(5,2) NOT NULL DEFAULT 0.00
 );

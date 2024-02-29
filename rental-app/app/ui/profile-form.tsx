@@ -10,7 +10,7 @@ import { Button } from '@/app/ui/button';
 import { useState, useEffect } from 'react';
 import { getUser, updateUser } from '../lib/actions';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 
 export default function ProfileForm() {
   const [formData, setFormData] = useState({
@@ -21,31 +21,43 @@ export default function ProfileForm() {
   });
   const router = useRouter();
 
+  async function getUserEmail(): Promise<string | undefined> {
+    try {
+      const session = await getSession();
+      console.log('Session:', session);
+      if (session && session.user && session.user.email) {
+        return session.user.email;
+      } else {
+        console.error('Session or user data is missing.');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error fetching user email:', error);
+      return undefined;
+    }
+  }
+
   useEffect(() => {
     const fetchUserData = async () => {
-      // Check if user is authenticated and get their email from the session
-      const { data: session, status } = useSession();
+      try {
+        const userEmail = await getUserEmail();
+        console.log(userEmail);
+        if (userEmail) {
+          const userData = await getUser(userEmail);
 
-      if (status === 'authenticated' && session?.user) {
-        const email = session.user.email;
-        console.log('Email:', email);
-        if (!email) {
-          console.error('No email found in the session');
-          return;
+          if (userData) {
+            setFormData({
+              name: userData.name || '',
+              email: userData.email || '',
+              age: userData.age?.toString() || '',
+              gender: userData.gender || '',
+            });
+          }
         }
-        const user = await getUser(email);
-
-        if (user) {
-          setFormData({
-            name: user.name || '',
-            email: user.email || '',
-            age: user.age?.toString() || '',
-            gender: user.gender || '',
-          });
-        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -70,9 +82,10 @@ export default function ProfileForm() {
           router.push('/dashboard');
         } else {
           console.log('User canceled the update.');
-          const response = await updateUser(
-            await getUser('roy_kent@richmondfc.com'),
-          );
+          const email = await getUserEmail();
+          if (email) {
+            await updateUser(await getUser(email));
+          }
         }
       }
     } catch (error: any) {
